@@ -101,7 +101,7 @@ ln -s /etc/freeradius/3.0/mods-available/sql /etc/freeradius/3.0/mods-enabled/
 - Clonamos este repositorio para usar sus carpetas.
 
 ```
-git clone https://github.com/Fibored/daloradiusred.git daloradiusred
+git clone https://github.com/wispconf/daloradiusred.git daloradiusred
 ```
 
 - Movemos la carpeta daloradius a html del servidor
@@ -301,9 +301,10 @@ Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` 
 Instalamos docker y docker-compose en debian, necesarios para instalar en contenedores : unifi,omada
 ## Forma 1 por medio de Script automatico
 ```
+#Instalamos sudo
 apt install sudo -y
-# Despues descargamos el script
-wget https://raw.githubusercontent.com/Fibored/daloradiusred/refs/heads/main/docker-install.sh
+# Despues Vamos a la carpeta daloradiusred
+cd /daloradiusred/
 # Lanzamos la ejecucion del script
 sudo bash docker-install.sh
 ```
@@ -385,7 +386,7 @@ Acceso: https://IP:8443/
 ### Instalacion Wireguard Adguardhome unbound
 Paraesta instalacion favor de dirigirse a 
 ```
-https://github.com/Fibored/WUAH
+https://github.com/wispconf/WUAH
 ```
 
 ### Respaldo carpeta html completa
