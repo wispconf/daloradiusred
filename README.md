@@ -86,7 +86,7 @@ GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "84Pass@";
 FLUSH PRIVILEGES;
 quit;
 ```
-- Instalacion de apache server ( si hay instalado lighttpd deshabilitarlo `systemctl disable lighttpd` )
+- Instalacion de apache server ( si hay instalado lighttpd deshabilitarlo para que no entre en conflicto `systemctl disable lighttpd` )
 > [!CAUTION]
 > El siguiente codigo lanzalo linea a linea osea uno a uno.
 ```
