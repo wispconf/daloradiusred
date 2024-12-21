@@ -644,7 +644,7 @@
 
 		<li class='fieldset'>
 		<label for='usernameLength' class='form'><?php echo t('all','UsernameLength') ?></label>
-		<input class="integer" name='length_user' type='text' id='length_user' value='8' tabindex='103' />
+		<input class="integer" name='length_user' type='text' id='length_user' value='4' tabindex='103' />
 		<img src="images/icons/bullet_arrow_up.png" alt="+" onclick="javascript:changeInteger('length_user','increment')" />
 		<img src="images/icons/bullet_arrow_down.png" alt="-" onclick="javascript:changeInteger('length_user','decrement')"/>
 		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('lengthOfUsernameTooltip')" />
@@ -696,7 +696,7 @@
 		
 		<li class='fieldset'>
 		<label for='passwordLength' class='form'><?php echo t('all','PasswordLength') ?></label>
-		<input class="integer" name='length_pass' type='text' id='length_pass' value='8' tabindex='105' />
+		<input class="integer" name='length_pass' type='text' id='length_pass' value='2' tabindex='105' />
 		<img src="images/icons/bullet_arrow_up.png" alt="+" onclick="javascript:changeInteger('length_pass','increment')" />
 		<img src="images/icons/bullet_arrow_down.png" alt="-" onclick="javascript:changeInteger('length_pass','decrement')"/>
 		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('lengthOfPasswordTooltip')" />
@@ -709,7 +709,7 @@
 
 		<li class='fieldset'>
 		<label for='numberInstances' class='form'><?php echo t('all','NumberInstances') ?></label>
-		<input class="integer" name='number' type='text' id='number' value='1' tabindex='106' />
+		<input class="integer" name='number' type='text' id='number' value='52' tabindex='106' />
 		<img src="images/icons/bullet_arrow_up.png" alt="+" onclick="javascript:changeInteger('number','increment')" />
 		<img src="images/icons/bullet_arrow_down.png" alt="-" onclick="javascript:changeInteger('number','decrement')"/>
 		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('instancesToCreateTooltip')" />
@@ -819,8 +819,3 @@
 
 </body>
 </html>
-
-
-
-
-
