@@ -116,7 +116,7 @@ apt -y install freeradius freeradius-mysql freeradius-utils
 systemctl enable --now freeradius.service
 ```
 ```
-mysql -u root -p radius < /etc/freeradius/3.0/mods-config/sql/main/mysql/schema.sql
+mysql --user=root --password=Passw@rd radius < /etc/freeradius/3.0/mods-config/sql/main/mysql/schema.sql
 ```
 ```
 ln -s /etc/freeradius/3.0/mods-available/sql /etc/freeradius/3.0/mods-enabled/
@@ -164,11 +164,11 @@ cd /var/www/html/daloradius/
 ```
 
 ```
-mysql -u root -p radius < contrib/db/fr2-mysql-daloradius-and-freeradius.sql
+mysql --user=root --password=Passw@rd radius < contrib/db/fr2-mysql-daloradius-and-freeradius.sql
 ```
 
 ```
-mysql -u root -p radius < contrib/db/mysql-daloradius.sql
+mysql --user=root --password=Passw@rd radius < contrib/db/mysql-daloradius.sql
 ```
 
 - Regresamos a root
@@ -192,7 +192,7 @@ pear channel-update pear.php.net
 -  Agregaremos una tabla (printme) tipo view a la base de datos radius, esta nos servira para extraer los datos (batch_name,planname,plancost,username,value) para la impresion de lotes.
 
 ```
-mysql -p -u root radius < /root/daloradiusred/root/dalomv/printme.sql
+mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/printme.sql
 ```
 
 - Damos permisos a algunas carpetas y archivos para generar los logs.
@@ -428,12 +428,11 @@ unzip archivo.zip
 - respaldo de una tabla de la base de datos
 
 ```
-mysqldump -u [user name] –p [password] [database_name] [tablename] > tabla.sql
-#mysqldump -u root –p Passw@rd radius printme > printme.sql
+mysqldump --user= [user name] –-password= [password] [database_name] [tablename] > tabla.sql
+#mysqldump --user=root --password=Passw@rd radius printme > printme.sql
 ```
 - respaldo de una base de datos
 
 ```
-mysqldump -u [user name] –p [password] [database_name] > db.sql
-#mysqldump -u root –p Passw@rd radius > db.sql
+mysqldump --user=root --password=Passw@rd radius > db.sql
 ```
