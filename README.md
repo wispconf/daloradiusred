@@ -1,7 +1,7 @@
-## Instalacion Daloradius en debian 12 + Omada + Unifi + Wireguard + Unbound DNS + AdGuardHome
+## Instalacion Daloradius en debian 11 y 12
 
+### Preparacion del sistema.
 > [!CAUTION]
-> Este punto puede **omitirse**..........
 - Activar ipv6
 ```
 enable_ipv6
@@ -35,18 +35,23 @@ service ssh restart
 systemctl restart sshd
 ```
 
-## Instalacion Daloradius inicia instalacion.
+### Instalacion de Mariadb.
 - Instalamos algunos paquetes necesarios para daloradius
 ```
 apt -y install software-properties-common gnupg2 dirmngr git wget zip unzip sudo -y
 ```
-_Seguimos con los siguientes_
+- En debian 11 se agrega el siguiente repositorio, para debian 12 no es necesario.
+
+```mermaid
+graph LR
+A[Os] --> B((Debian 11?))
+B --Si --> D(Add Repo)
+D -->F
+B --No --> F(Install Mariadb)
+```
 ```
 apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
 ```
-
-> [!CAUTION]
-_Terminada de instalar la clave agregamos un repositorio si estamos en debian 11, para **debian 12** no es necesario_
 ```
 add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirror.rackspace.com/mariadb/repo/10.5/debian bullseye main'
 
@@ -57,12 +62,17 @@ _Actualizamos el Sistema_
 ```
 apt -y update
 ```
-- Instalacion de Mariadb.
-> [!CAUTION]
-> El siguiente codigo lanzalo linea a linea osea uno a uno.
+
+- Realizamos la  ***instalacion de mariadb***
 ```
 apt install mariadb-server mysqltuner -y
+```
+
+```
 systemctl start mysql.service
+```
+- Creamos la base de datos.
+```
 mysql_secure_installation
 ```
 Te apareceran algunas opciones de configuracion.
@@ -74,31 +84,42 @@ Te apareceran algunas opciones de configuracion.
 #y
 #y
 # Disallow root login remotely? [Y/n] n
-# password usada aqui es 84Pass@ ,utiliza el tuyo, recuerda cuando veas 84Pass@ cambiarlo.
+# 
 ```
-- Creamos una base de datos, cambiamos `84Pass@` por tu clave
-> [!CAUTION]
-> El siguiente codigo lanzalo linea a linea osea uno a uno.
+- se crea la db y se le agrega un password, el usado en esta instalacion es ***Passw@rd***
+
 ```
 mysql -u root -p
 CREATE DATABASE radius;
-GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "84Pass@";
+GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "Passw@rd";
 FLUSH PRIVILEGES;
 quit;
 ```
+### Instalacion apache2 freeradius
+
 - Instalacion de apache server ( si hay instalado lighttpd deshabilitarlo para que no entre en conflicto `systemctl disable lighttpd` )
 > [!CAUTION]
 > El siguiente codigo lanzalo linea a linea osea uno a uno.
 ```
 apt -y install apache2
+```
+```
 apt -y install php libapache2-mod-php php-{gd,common,mail,mail-mime,mysql,pear,mbstring,xml,curl}
+```
+```
 apt -y install freeradius freeradius-mysql freeradius-utils
+```
+```
 systemctl enable --now freeradius.service
+```
+```
 mysql -u root -p radius < /etc/freeradius/3.0/mods-config/sql/main/mysql/schema.sql
+```
+```
 ln -s /etc/freeradius/3.0/mods-available/sql /etc/freeradius/3.0/mods-enabled/
 ```
-- Instalacion de Daloradius
-- Clonamos este repositorio para usar sus carpetas.
+### Instalacion de Daloradius
+- Clonamos este repositorio el cual contiene daloradius v1.3 con algunas modificaciones necesarias para que funcione correctamente.
 
 ```
 git clone https://github.com/wispconf/daloradiusred.git daloradiusred
@@ -110,7 +131,7 @@ git clone https://github.com/wispconf/daloradiusred.git daloradiusred
 \mv /root/daloradiusred/server/print /var/www/html/
 ```
 
-- Remplazamos unos archivos por algunos editados, puedes hacer una comparacion de cambios con algun software en linea, en el mismo archivo hay una leyenda donde se cambio que dice: Wirisp cambiar aqui.
+- Remplazamos los archivos originales por los modificados, ya llevan los cambios necesarios para funcionar adecuadamente.
 
 ```
 \mv /root/daloradiusred/root/dalomv/radiusd.conf /etc/freeradius/3.0/radiusd.conf
@@ -165,21 +186,13 @@ pear install DB
 pear install MDB2
 pear channel-update pear.php.net
 ```
-
-> [!CAUTION]
-> Agregamos el password a nuestra base de datos, siendo `84Pass@` la default y `84Elij@` o que haz elegido.
+-  Agregaremos una tabla (printme) tipo view a la base de datos radius, esta nos servira para extraer los datos (batch_name,planname,plancost,username,value) para la impresion de lotes.
 
 ```
-sed -i 's/84Uniq@/84Elij@/g' "/root/daloradiusred/root/dalomv/base.sql"
-```
-- Restauramos base de datos
-
-```
-mysql -p -u root radius < /root/daloradiusred/root/dalomv/base.sql
+mysql -p -u root radius < /root/daloradiusred/root/dalomv/printme.sql
 ```
 
-
-- Darle permisos a carpetas log
+- Damos permisos a algunas carpetas y archivos para generar los logs.
 ```
 chmod 777  /var/log/syslog
 chmod 777 /var/log/freeradius
@@ -190,38 +203,25 @@ chmod 644 /var/log/messages
 #chmod 644 /var/log/dmesg
 touch /tmp/daloradius.log
 ```
+- Algunos archivos de configuracion y scripts llevan dentro nuestro password  **Passw@rd**, por lo que lo cambiaremos al que hayamos elejido  **84Elij@**.
 
+- Cambia **84Elij@** por el password propio.
 
-- Modificamos los passwords de la base de datos en los scripts la cual por default es 84Pass@.
-podemos utilizar el siguiente comando para reemplazarlo por el password que elegistes ejemplo 84Elij@ .
-
-- Primero buscamos lo que queremos cambiar, anotamos los archivos donde se encuentra
-```
-grep -rl "84Pass@" /var
-grep -rl "84Pass@" /etc
-```
-
-- Ahora cambiamos ese password `84Pass@` por la que nosotros decidamos `84Elij@` por ejemplo, en su caso coloca tu password elegido.
-> [!CAUTION]
-> El siguiente codigo copia linea a linea ya que tienes que cambiar datos.
-
-- Cambia **84Elij@** por el password usado
 ```
 passwd="84Elij@"
 ```
-
+En el siguiente no cambies nada, ya que sera remplazado por el que se coloco en el anterior paso.
 ```
-sed -i "s/84Pass@/$passwd/g" "/var/www/html/daloradius/library/daloradius.conf.php"
-sed -i "s/84Pass@/$passwd/g" "/var/www/html/print/index.php"
-sed -i "s/84Pass@/$passwd/g" "/var/www/html/print/SimpleAuth.php"
-sed -i "s/84Pass@/$passwd/g" "/etc/freeradius/3.0/mods-available/sql"
+sed -i "s/Passw@rd/$passwd/g" "/var/www/html/daloradius/library/daloradius.conf.php"
+sed -i "s/Passw@rd/$passwd/g" "/var/www/html/print/index.php"
+sed -i "s/Passw@rd/$passwd/g" "/var/www/html/print/SimpleAuth.php"
+sed -i "s/Passw@rd/$passwd/g" "/etc/freeradius/3.0/mods-available/sql"
 ```
 - Reiniciar sistema e ingresar
 
 ```
 reboot
 ```
-
 
 > [!CAUTION]
 > El siguiente codigo lanzalo linea a linea osea uno a uno para checar servicios.
@@ -237,6 +237,9 @@ sed -i 's/Rivera/Myusuario/g' "/var/www/html/daloradius/login.php"
 _Si hay error de puertos Es necesario que se abran los puertos en el vps de administracion 1812,1813,3306,6813,80,8080,443_
 
 - Agregando scripts y crontab para mantenimiento.
+Yo he agregado algunos script para optimizar mis tareas cotidianas, como es el de realizar respaldos de la db, eliminar fichas o vouchers usados despues de ciertos x dias,
+elimnar errores de Nas-Reboot que se ocasionan cuando se pierde la conexion del Nas con el servidor.
+
 ```
 crontab -e
 ```
@@ -256,36 +259,34 @@ Guardamos el archivo, y ahora movemos la carpeta de los scripts a /root
 ```
 \mv /root/daloradiusred/root/scripts /root/scripts/
 \mv /root/daloradiusred/root/backupdb /root/backupdb/
-\mv /root/daloradiusred/root/docker /root/docker/
 ```
 
 - Para cambiarles el password a los scripts, recuerda que en vez de `84Elij@` necesitamos colocar el que elegimos.
 > [!CAUTION]
-> En el siguiente codigo coloca tu password en lugar de la variable 84Elij@.
+> En el siguiente codigo coloca tu password en lugar de la variable ***84Elij@***.
 
 ```
 passwd="84Elij@"
 ```
 
 ```
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/rmanual/limpiamanual.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/limpiaCorridos.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/limpia7dCorridos.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/cleaner/rmcreationdate.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/cleaner/eliminabatch.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/cleaner/rmuserinfofirst.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/cleaner/removegroupname.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/cleaner/eliminadb.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/listar/crearlista.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/backupdbradius.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/cleanradpostauth.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/limpiaPausados.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/radacct_trim.sh"
-sed -i "s/84Pass@/$passwd/g" "/root/scripts/NAS-Reboot.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/rmanual/limpiamanual.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaCorridos.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpia7dCorridos.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmcreationdate.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/eliminabatch.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmuserinfofirst.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/removegroupname.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/eliminadb.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/crearlista.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/backupdbradius.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleanradpostauth.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaPausados.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/radacct_trim.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/NAS-Reboot.sh"
 ```
 
 
-Encontraremos tambien las configuracion para desplegar contenedores de unifi, omada, wireguard con pihole unbound.
 
 ### Acceso a daloradius
 
@@ -297,99 +298,25 @@ Pass: 84Elij@
 ```
 Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` para cambiar el password y usuarios.
 
-### Instalacion docker y docker compose
-Instalamos docker y docker-compose en debian, necesarios para instalar en contenedores : unifi,omada
-## Forma 1 por medio de Script automatico
+## Comandos utiles para adminmistracion
+- Buscar una documentos que contengan una palabra especifica para despues modificarla o cambiarla,
 ```
-#Instalamos sudo
-apt install sudo -y
-# Despues Vamos a la carpeta daloradiusred
-cd /daloradiusred/
-# Lanzamos la ejecucion del script
-sudo bash docker-install.sh
+grep -rl "palabuscar" /root
 ```
-## Forma 2 Introduciendo de forma manual los comandos.
+Ahora la cambiamos usando una variable
 
-> [!CAUTION]
-> El siguiente codigo lanzalo linea a linea osea uno a uno
 
 ```
-# Add Docker's official GPG key:
-sudo apt-get update
-
-sudo apt-get install ca-certificates curl gnupg
-
-sudo install -m 0755 -d /etc/apt/keyrings
-
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+variable="nuevapalabra"
 ```
 
-- Agrega el repositorio de un solo golpe todo
 ```
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
-- Actualizamos repositorios
-```
-sudo apt-get update
-```
-> [!CAUTION]
-> El siguiente codigo lanzalo linea a linea osea uno a uno para instalar paquetes
-
-```
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-#
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-#
-sudo chmod +x /usr/local/bin/docker-compose
-#
-docker-compose -v
-docker -v
+sed -i "s/palabuscar/$variable/g" "/root/carp/xdoc.sh"
+sed -i "s/palabuscar/$variable/g" "/root/carp/doc2.doc"
+sed -i "s/palabuscar/$variable/g" "/root/carp3/arch.txt"
 ```
 
-### Istalando omada
-- Entramos a la carpeta y editamos el archivo de configuracion
-```
-cd /root/docker/omada/
-cat docker-compose.yml
-
-```
-
-Ejecutamos el contenedor, teniendo ya instalado docker y docker compose.
-```
-docker-compose up -d
-```
-Accedemos con
-```
-Acceso: https://IP:8043/
-```
-### Instalando unifi
-- Entramos a la carpeta y editamos el archivo de configuracion
-```
-cd /root/docker/unifi/
-cat docker-compose.yml
-
-```
-
-Ejecutamos el contenedor, teniendo ya instalado docker y docker compose.
-```
-docker-compose up -d
-```
-Accedemos con
-```
-Acceso: https://IP:8443/
-```
-### Instalacion Wireguard Adguardhome unbound
-Paraesta instalacion favor de dirigirse a 
-```
-https://github.com/wispconf/WUAH
-```
-
-### Respaldo carpeta html completa
+- Respaldo carpeta html completa
 
 ```
 cd /var/www
@@ -398,4 +325,24 @@ Descomprimir con
 cd /var/www/html
 tar -xf html.tar.gz
 ```
+- Descomprimir zip
 
+```
+apt install unzip
+```
+
+```
+unzip archivo.zip
+```
+- respaldo de una tabla de la base de datos
+
+```
+mysqldump -u [user name] –p [password] [database_name] [tablename] > tabla.sql
+#mysqldump -u root –p Passw@rd radius printme > printme.sql
+```
+- respaldo de una base de datos
+
+```
+mysqldump -u [user name] –p [password] [database_name] > db.sql
+#mysqldump -u root –p Passw@rd radius > db.sql
+```
