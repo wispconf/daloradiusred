@@ -36,12 +36,12 @@
 
 
                                 <?php 
-                                    $con = mysqli_connect("localhost","radius","84Pass@","radius");
+                                    $con = mysqli_connect("localhost","radius","Passw@rd","radius");
 
                                     if(isset($_GET['search']))
                                     {
                                         $filtervalues = $_GET['search'];
-                    $query = "SELECT * FROM radius.fichas WHERE CONCAT(batch_name) LIKE '$filtervalues'";
+                    $query = "SELECT * FROM radius.printme WHERE CONCAT(batch_name) LIKE '$filtervalues'";
                                         $query_run = mysqli_query($con, $query);
 
                                         if(mysqli_num_rows($query_run) > 0)
