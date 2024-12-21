@@ -29,7 +29,7 @@
 // Set your username
 define('LOGIN_USER', "Rivera");
 // Set your password
-define('LOGIN_PASS', "84Pass@");
+define('LOGIN_PASS', "Passw@rd");
 
 // LANGUAGES
 // ------------------------------------------------------------------------------------------------
