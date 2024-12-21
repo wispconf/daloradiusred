@@ -1,7 +1,6 @@
 ## Instalacion Daloradius en debian 11 y 12
 
 ### Preparacion del sistema.
-> [!CAUTION]
 - Activar ipv6
 ```
 enable_ipv6
@@ -326,6 +325,10 @@ sed -i "s/Passw@rd/$passwd/g" "/root/scripts/NAS-Reboot.sh"
 ```
 
 ## Comandos utiles para administracion
+- Acceder a una base de datos
+```
+mysql --user=root --password=Passw@rd radius
+```
 - Buscar una documentos que contengan una palabra especifica para despues modificarla o cambiarla,
 
 ```
