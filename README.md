@@ -90,8 +90,12 @@ Te apareceran algunas opciones de configuracion.
 
 ```
 mysql -u root -p
+```
+```
 CREATE DATABASE radius;
 GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "Passw@rd";
+```
+```
 FLUSH PRIVILEGES;
 quit;
 ```
