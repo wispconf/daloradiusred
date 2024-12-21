@@ -234,11 +234,46 @@ systemctl status apache2
 systemctl status freeradius
 ```
 
-- Ingresar a daloradius por la direccion `http://IP/daloradius` con usuario `administrator` y clave elegida  `84Elij@` puedes cambiar el usuario `Rivera` de inicio con.
+- Ingresar a daloradius por la direccion `http://IP/daloradius` con usuario `administrator` y clave   `radius` 
+Observa que aparece un usuario `Rivera` en inicio, puedes cambiarlo al tuyo por ejemplo ***Myusuario***.
 ```
 sed -i 's/Rivera/Myusuario/g' "/var/www/html/daloradius/login.php"
 ```
+
 _Si hay error de puertos Es necesario que se abran los puertos en el vps de administracion 1812,1813,3306,6813,80,8080,443_
+
+### Acceso a daloradius
+
+```
+Iniciar sesion
+WEB: IP/daloradius
+Usuario: administrator
+Pass: radius
+```
+Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` para cambiar el password y usuarios.
+
+### Acceso a la pagina de impresion de voucher por lotes
+Cuando se crea un lote de vouchers, con el nombre se puede imprimir todo el lote, este se encuentra listado en 
+```
+http://xxx.xxx.xx.xx/daloradius/mng-batch-list.php
+```
+Para imprimirlo accedemos a la pagina de impresion por lotes.
+
+```
+Iniciar sesion
+WEB: IP/print
+Usuario: Rivera
+Pass: 84Elij@
+```
+
+Igual cambiamos el usuario Rivera por el propio (Myusuario).
+
+```
+sed -i 's/Rivera/Myusuario/g' "/var/www/html/print/SimpleAuth.php"
+```
+Aqui termina la instalacion de daloradius, opcionalmente puedes realizar lo siguiente.
+
+## Scripts de mantenimiento y crontab
 
 - Agregando scripts y crontab para mantenimiento.
 Yo he agregado algunos script para optimizar mis tareas cotidianas, como es el de realizar respaldos de la db, eliminar fichas o vouchers usados despues de ciertos x dias,
@@ -288,32 +323,6 @@ sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleanradpostauth.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaPausados.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/radacct_trim.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/NAS-Reboot.sh"
-```
-
-
-
-### Acceso a daloradius
-
-```
-Iniciar sesion
-WEB: IP/daloradius
-Usuario: administrator
-Pass: 84Elij@
-```
-Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` para cambiar el password y usuarios.
-
-### Acceso a la pagina de impresion de voucher por lotes
-Cuando se crea un lote de vouchers, con el nombre se puede imprimir todo el lote, este se encuentra listado en 
-```
-http://xxx.xxx.xx.xx/daloradius/mng-batch-list.php
-```
-Para imprimirlo accedemos a la pagina de impresion por lotes.
-
-```
-Iniciar sesion
-WEB: IP/print
-Usuario: administrator
-Pass: 84Elij@
 ```
 
 ## Comandos utiles para administracion
