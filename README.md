@@ -299,6 +299,11 @@ Pass: 84Elij@
 Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` para cambiar el password y usuarios.
 
 ### Acceso a la pagina de impresion de voucher por lotes
+Cuando se crea un lote de vouchers, con el nombre se puede imprimir todo el lote, este se encuentra listado en 
+```
+http://xxx.xxx.xx.xx/daloradius/mng-batch-list.php
+```
+Para imprimirlo accedemos a la pagina de impresion por lotes.
 
 ```
 Iniciar sesion
