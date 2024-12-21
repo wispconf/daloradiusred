@@ -357,6 +357,10 @@ INSERT INTO `radgroupcheck` VALUES
 (13,'30dCorridos','Fall-Through',':=','Yes'),
 (14,'30dCorridos','Simultaneous-Use',':=','1');
 ```
+
+***Max-All-Session*** : 7200 #Se refiere a 7200 segundos = 2Hrs en suma total de tiempo.
+***Access-Period*** : 604800 # Se refiere a 604800 segundos = 7d en tiempo corrido desde el primer inicio.
+
 - Agregamos a la tabla radgroupreply los datos
 ```
 INSERT INTO `radgroupreply` VALUES
