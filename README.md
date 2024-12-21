@@ -226,10 +226,11 @@ sed -i "s/Passw@rd/$passwd/g" "/etc/freeradius/3.0/mods-available/sql"
 reboot
 ```
 
-> [!CAUTION]
 > El siguiente codigo lanzalo linea a linea osea uno a uno para checar servicios.
 ```
 systemctl status apache2
+```
+```
 systemctl status freeradius
 ```
 
@@ -271,7 +272,14 @@ Igual cambiamos el usuario Rivera por el propio (Myusuario).
 sed -i 's/Rivera/Myusuario/g' "/var/www/html/print/SimpleAuth.php"
 ```
 Aqui termina la instalacion de daloradius, opcionalmente puedes realizar lo siguiente.
+- Checar si quedo algun archivo con la contraseña Passw@rd
 
+```
+grep -rl "Passw@rd" /root
+grep -rl "Passw@rd" /var/www
+grep -rl "Passw@rd" /etc
+
+```
 ## Scripts de mantenimiento y crontab
 
 - Agregando scripts y crontab para mantenimiento.
@@ -300,7 +308,7 @@ Guardamos el archivo, y ahora movemos la carpeta de los scripts a /root
 ```
 
 - Para cambiarles el password a los scripts, recuerda que en vez de `84Elij@` necesitamos colocar el que elegimos.
-> [!CAUTION]
+
 > En el siguiente codigo coloca tu password en lugar de la variable ***84Elij@***.
 
 ```
