@@ -193,6 +193,7 @@ pear channel-update pear.php.net
 
 ```
 mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/printme.sql
+mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/usadas.sql
 ```
 
 - Damos permisos a algunas carpetas y archivos para generar los logs.
