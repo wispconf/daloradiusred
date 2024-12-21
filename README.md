@@ -324,6 +324,62 @@ sed -i "s/Passw@rd/$passwd/g" "/root/scripts/radacct_trim.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/NAS-Reboot.sh"
 ```
 
+## Creacion de perfiles, planes
+Los perfiles son los grupos que contienen las configuraciones de las tablas radgroupreply y radgroupcheck utilizados para asignar a cada ficha o voucher.
+Los planes en la tabla billing_plans son los costos de cada ficha y esta ligado al perfil.
+
+- Se crearan los siguientes perfiles : 2HrPausada , 12HrPausada , 7dCorridos , 30dCorridos
+
+1. Forma 1 , importando la tabla que ya los contiene.
+```
+mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/checkreplyplans.sql
+```
+2. Forma 2 , introduciendo los datos en las tablas por medio de la terminal.
+
+- Entramos en la base de datos radius
+```
+mysql --user=root --password=Passw@rd radius
+```
+
+- Agregamos a la tabla radgroupcheck los datos
+```
+INSERT INTO `radgroupcheck` VALUES
+(3,'2HrPausada','Max-All-Session',':=','7200'),
+(4,'2HrPausada','Fall-Through',':=','Yes'),
+(5,'2HrPausada','Simultaneous-Use',':=','1'),
+(6,'12HrPausada','Max-All-Session',':=','43200'),
+(7,'12HrPausada','Fall-Through',':=','Yes'),
+(8,'12HrPausada','Simultaneous-Use',':=','1'),
+(9,'7dCorridos','Access-Period',':=','604800'),
+(10,'7dCorridos','Fall-Through',':=','Yes'),
+(11,'7dCorridos','Simultaneous-Use',':=','1'),
+(12,'30dCorridos','Access-Period',':=','2592000'),
+(13,'30dCorridos','Fall-Through',':=','Yes'),
+(14,'30dCorridos','Simultaneous-Use',':=','1');
+```
+- Agregamos a la tabla radgroupreply los datos
+```
+INSERT INTO `radgroupreply` VALUES
+(1,'2HrPausada','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
+(2,'2HrPausada','Acct-Interim-Interval',':=','60'),
+(3,'12HrPausada','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
+(4,'12HrPausada','Acct-Interim-Interval',':=','60'),
+(5,'7dCorridos','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
+(6,'7dCorridos','Acct-Interim-Interval',':=','60'),
+(7,'30dCorridos','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
+(8,'30dCorridos','Acct-Interim-Interval',':=','60');
+```
+- Agregamos los planes a la tabla billing_plans
+```
+INSERT INTO `billing_plans` VALUES
+(1,'2HrPausada','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','10','8','2','MXN','','yes','2024-12-15 20:53:36','administrator',NULL,NULL),
+(2,'12HrPausada','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','30','24','6','MXN','','yes','2024-12-15 20:55:16','administrator',NULL,NULL),
+(3,'7dCorridos','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','50','40','10','MXN','','yes','2024-12-15 20:57:07','administrator',NULL,NULL),
+(4,'30dCorridos','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','200','160','40','MXN','','yes','2024-12-15 20:57:37','administrator',NULL,NULL);
+```
+
+Como podras observar, puedes cambiar los datos a tu gusto ya sea por medio de la terminal o directamente en el servidor cuando ya se hayan importado.
+
 ## Comandos utiles para administracion
 - Acceder a una base de datos
 ```
