@@ -298,13 +298,22 @@ Pass: 84Elij@
 ```
 Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` para cambiar el password y usuarios.
 
-## Comandos utiles para adminmistracion
+### Acceso a la pagina de impresion de voucher por lotes
+
+```
+Iniciar sesion
+WEB: IP/print
+Usuario: administrator
+Pass: 84Elij@
+```
+
+## Comandos utiles para administracion
 - Buscar una documentos que contengan una palabra especifica para despues modificarla o cambiarla,
+
 ```
 grep -rl "palabuscar" /root
 ```
 Ahora la cambiamos usando una variable
-
 
 ```
 variable="nuevapalabra"
