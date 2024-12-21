@@ -359,6 +359,7 @@ INSERT INTO `radgroupcheck` VALUES
 ```
 
 ***Max-All-Session*** : 7200 #Se refiere a 7200 segundos = 2Hrs en suma total de tiempo.
+
 ***Access-Period*** : 604800 # Se refiere a 604800 segundos = 7d en tiempo corrido desde el primer inicio.
 
 - Agregamos a la tabla radgroupreply los datos
