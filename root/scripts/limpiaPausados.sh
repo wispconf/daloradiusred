@@ -1,13 +1,11 @@
 #!/bin/sh
 #set -x
-# This script delets users who have expired 2 months ago. and then delete there records from all tables.
+# Lista los usuarios de la tabla usadas que hayan iniciado sesion hace cierto tiempo y pertenezcan a los grupos x, util para colocar vigencia a fichas
 # Syed Jahanzaib / June 2019
 SQLPASS="Passw@rd"
 Days="11"
 export MYSQL_PWD=$SQLPASS
 > /tmp/expired.users.txt
-
-#mysql -uroot -e “use radius; select username from rm_users where expiration BETWEEN ‘2010-01-01’ AND ‘2019-04-30’;” |sort > /tmp/expired.users.txt
 
 # Fetch users who have expired 2 months ago & before, (using expired date), BE CAREFUL WHEN USING THIS
 mysql -uroot -e "use radius; SELECT username FROM usadas WHERE min <= DATE_SUB(CURDATE(), INTERVAL $Days day) and (groupname = '2hPausada' OR groupname = '3HrPausada' OR groupname = '12hPausada' OR groupname = '2HrPausada' OR groupname = '12HrPausada')" |sort > /tmp/expired.users.txt
@@ -24,11 +22,3 @@ mysql -uroot -e "use radius; DELETE FROM radusergroup WHERE username = '$USERNAM
 mysql -uroot -e "use radius; DELETE FROM userbillinfo WHERE username = '$USERNAME';"
 
 done
-#Copia usuarios a root
-cp /tmp/expired.users.txt /root/scripts/exp.txt
-# Parte 2 para limpiar la base de datos en radpostauth && raddact
-#mysql -uroot -e "use radius; DELETE FROM radpostauth WHERE authdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-#mysql -uroot -e "use radius; DELETE FROM radacct WHERE acctstarttime <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-#mysql -uroot -e "use radius; DELETE FROM userbillinfo WHERE creationdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-#mysql -uroot -e "use radius; DELETE FROM radpostauth WHERE authdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-echo "Base de datos limpiada correctamente"
