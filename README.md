@@ -299,6 +299,7 @@ Agregamos las siguientes lineas
 0 20 * * * sudo bash /root/scripts/limpiaCorridos.sh
 #limpieza de fichas usadas vigencia de 11 dias elegida en el script
 0 22 * * * sudo bash /root/scripts/limpiaPausados.sh
+#Elimina el error NAS reboot en accounting
 */5  * * * * sudo bash /root/scripts/NAS-Reboot.sh
 #Limpieza de la db conexiones y accounting
 0 23 * * * sudo bash /root/scripts/rmtmpdb.sh
@@ -324,7 +325,6 @@ sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaCorridos.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaPausados.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/NAS-Reboot.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/rmtmpdb.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/script/cleaner/eliminabatch.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/eliminabatch.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/removegroupname.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmcreationdate.sh"
