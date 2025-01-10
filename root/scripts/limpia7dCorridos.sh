@@ -3,7 +3,7 @@
 # Este script lista los usuarios de la tabla usadas de hace cierto tiempo ,que pertenezcan a x grupos, despues los elimina
 # Syed Jahanzaib / June 2019
 SQLPASS="Passw@rd"
-Days="31"
+Days="40"
 export MYSQL_PWD=$SQLPASS
 > /tmp/expired.mensual.txt
 
