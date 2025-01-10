@@ -1,16 +1,16 @@
 #!/bin/sh
 #set -x
-# Este script elimina fichas de hace 10 dias de uso, y tambien limpia las bases de datos de hace 30 dias.
+# Este script crea un listado, dependiendo de que tabla y especificacion se le de
 # Cambiar el password de tu DB
 SQLPASS="Passw@rd"
 export MYSQL_PWD=$SQLPASS
 > /tmp/expired.users.txt
 > /root/scripts/listar/lista.txt
-# extrae listado de usuarios del grupo en el sistema.
+# lista usuarios de la tabla radusergroup que tenga como grupo xxxxxxxxx
 mysql -uroot -e "use radius; SELECT username FROM radusergroup WHERE groupname = '30dCorridos'" |sort > /tmp/expired.users.txt
-# Extrae listado de usuarios en el batch o lote.
+# # lista usuarios de la tabla fichas que tenga como nombre de lote xxxxxxxxx
 #mysql -uroot -e "use radius; SELECT username FROM fichas WHERE batch_name = '2401237dOF'" |sort > /tmp/expired.users.txt
-# Extrae usuarios con userinfo.firstname
+# # lista usuarios de la tabla userinfo donde el primer nombre sea xxxxxxx
 #mysql -uroot -e "use radius; SELECT username FROM userinfo WHERE userinfo.firstname like '2401212B%'" |sort > /tmp/expired.users.txt
 #Copia usuarios a /root/scripts/listar/lista.txt
 cp /tmp/expired.users.txt /root/scripts/listar/lista.txt
