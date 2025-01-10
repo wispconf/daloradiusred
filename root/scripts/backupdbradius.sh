@@ -1,4 +1,5 @@
 #! /bin/bash
+# Script que crea un respaldo de la base de datos de daloradius con crontab -e 
 username=root
 password=Passw@rd
 database=radius
