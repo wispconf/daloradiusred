@@ -10,7 +10,8 @@ export MYSQL_PWD=$SQLPASS
 #mysql -uroot -e “use radius; select username from rm_users where expiration BETWEEN ‘2010-01-01’ AND ‘2019-04-30’;” |sort > /tmp/expired.mensual.txt
 
 # Lista los usuarios de la tabla usadas que hayan iniciado sesion por primera vez hace x tiempo y que pertenezcan a los grupos x 
-mysql -uroot -e "use radius; SELECT username FROM usadas WHERE min <= DATE_SUB(CURDATE(), INTERVAL $Days day) and (groupname = '30dCorridos' OR groupname = '7dCorridos')" |sort > /tmp/expired.mensual.txt
+mysql -uroot -e "use radius; SELECT username FROM usadas WHERE min <= DATE_SUB(CURDATE(), INTERVAL $Days day) and groupname like '%Corridos'" |sort > /tmp/expired.users.txt
+#mysql -uroot -e "use radius; SELECT username FROM usadas WHERE min <= DATE_SUB(CURDATE(), INTERVAL $Days day) and (groupname = '30dCorridos' OR groupname = '7dCorridos')" |sort > /tmp/expired.mensual.txt
 #Extrae esa lista y despues elimina cada uno de los usuarios.
 num=0
 cat /tmp/expired.mensual.txt | while read users
