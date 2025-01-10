@@ -1,6 +1,6 @@
 #!/bin/sh
 #set -x
-# Este script elimina fichas de hace 10 dias de uso, y tambien limpia las bases de datos de hace 30 dias.
+# Este script elimina el usuario llamado xxxx, y tambien limpia las bases de datos de hace 30 dias.
 # Cambiar el password de tu DB
 SQLPASS="Passw@rd"
 export MYSQL_PWD=$SQLPASS
