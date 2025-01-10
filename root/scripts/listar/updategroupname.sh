@@ -7,7 +7,7 @@ export MYSQL_PWD=$SQLPASS
 > /tmp/expired.users.txt
 > /root/scripts/listar/lista.txt
 # Extrae listado de usuarios en el batch o lote.
-mysql -uroot -e "use radius; SELECT username FROM fichas WHERE batch_name = '27122412H'" |sort > /tmp/expired.users.txt
+mysql -uroot -e "use radius; SELECT username FROM printme WHERE batch_name = '27122412H'" |sort > /tmp/expired.users.txt
 # extrae listado de usuarios del grupo en el sistema.
 #mysql -uroot -e "use radius; SELECT username FROM radusergroup WHERE groupname = '12hPausada'" |sort > /tmp/expired.users.txt
 # Extrae usuarios con userinfo.firstname
