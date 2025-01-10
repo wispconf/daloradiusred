@@ -319,20 +319,19 @@ passwd="84Elij@"
 ```
 
 ```
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/rmanual/limpiamanual.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaCorridos.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpia7dCorridos.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmcreationdate.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/eliminabatch.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmuserinfofirst.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/removegroupname.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/eliminadb.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/crearlista.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/backupdbradius.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleanradpostauth.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaCorridos.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/limpiaPausados.sh"
-sed -i "s/Passw@rd/$passwd/g" "/root/scripts/radacct_trim.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/NAS-Reboot.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/rmtmpdb.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/script/cleaner/eliminabatch.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/eliminabatch.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/removegroupname.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmcreationdate.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmuserinfofirst.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmxtiempocreado.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/crearlista.sh"
+sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/updategroupname.sh"
 ```
 
 ## Creacion de perfiles, planes
