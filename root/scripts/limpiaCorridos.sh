@@ -1,16 +1,17 @@
 #!/bin/sh
 #set -x
-# This script delets users who have expired 2 months ago. and then delete there records from all tables.
+# Este script lista los usuarios de la tabla usadas de hace cierto tiempo ,que pertenezcan a x grupos, despues los elimina
 # Syed Jahanzaib / June 2019
 SQLPASS="Passw@rd"
-Days="35"
+Days="40"
 export MYSQL_PWD=$SQLPASS
 > /tmp/expired.mensual.txt
 
 #mysql -uroot -e “use radius; select username from rm_users where expiration BETWEEN ‘2010-01-01’ AND ‘2019-04-30’;” |sort > /tmp/expired.mensual.txt
 
-# Fetch users who have expired 2 months ago & before, (using expired date), BE CAREFUL WHEN USING THIS
+# Lista los usuarios de la tabla usadas que hayan iniciado sesion por primera vez hace x tiempo y que pertenezcan a los grupos x 
 mysql -uroot -e "use radius; SELECT username FROM usadas WHERE min <= DATE_SUB(CURDATE(), INTERVAL $Days day) and (groupname = '30dCorridos' OR groupname = '7dCorridos')" |sort > /tmp/expired.mensual.txt
+#Extrae esa lista y despues elimina cada uno de los usuarios.
 num=0
 cat /tmp/expired.mensual.txt | while read users
 do
@@ -32,4 +33,3 @@ cp /tmp/expired.mensual.txt /root/scripts/expmensual.txt
 #mysql -uroot -e "use radius; DELETE FROM userbillinfo WHERE creationdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
 #mysql -uroot -e "use radius; DELETE FROM radpostauth WHERE authdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
 echo "Base de datos limpiada correctamente"
-
