@@ -25,11 +25,3 @@ mysql -uroot -e "use radius; DELETE FROM radusergroup WHERE username = '$USERNAM
 mysql -uroot -e "use radius; DELETE FROM userbillinfo WHERE username = '$USERNAME';"
 
 done
-#Copia usuarios a root
-cp /tmp/expired.mensual.txt /root/scripts/expmensual.txt
-# Parte 2 para limpiar la base de datos en radpostauth && raddact
-#mysql -uroot -e "use radius; DELETE FROM radpostauth WHERE authdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-#mysql -uroot -e "use radius; DELETE FROM radacct WHERE acctstarttime <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-#mysql -uroot -e "use radius; DELETE FROM userbillinfo WHERE creationdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-#mysql -uroot -e "use radius; DELETE FROM radpostauth WHERE authdate <= DATE_SUB(CURDATE(), INTERVAL $Days day);"
-echo "Base de datos limpiada correctamente"
