@@ -148,6 +148,7 @@ git clone https://github.com/wispconf/daloradiusred.git daloradiusred
 \mv /root/daloradiusred/root/dalomv/radutmp /etc/freeradius/3.0/mods-enabled/radutmp
 \mv /root/daloradiusred/root/dalomv/sql /etc/freeradius/3.0/mods-available/sql
 \mv /root/daloradiusred/root/dalomv/daloradius.conf.php /var/www/html/daloradius/library/daloradius.conf.php
+\mv /root/daloradiusred/root/dalomv/mng-batch-add.php /var/www/html/daloradius/mng-batch-add.php
 ```
 
 - Damos permisos necesarios
