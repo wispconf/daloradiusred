@@ -783,7 +783,7 @@ $l['button']['ActiveRecords'] = "Active Records";
 $l['button']['PlanUsage'] = "Plan Usage";
 
 $l['button']['OnlineUsers'] = "Online Users";
-$l['button']['LastConnectionAttempts'] = "Last Connection Attempts";
+$l['button']['LastConnectionAttempts'] = "Last Connections";
 $l['button']['TopUser'] = "Top User";
 $l['button']['History'] = "History";
 
