@@ -25,8 +25,7 @@
 $l['all']['daloRADIUS'] = "daloRADIUS " . $configValues['DALORADIUS_VERSION'];
 $l['all']['daloRADIUSVersion'] = "version " . $configValues['DALORADIUS_VERSION'];
 $l['all']['copyright1'] = "RADIUS Management by Liran Tal    ====== 🖨️  <a href=\"/print\">Imprimir Lotes";
-$l['all']['copyright2'] = "daloRADIUS Copyright &copy; 2007-2019 by <a href=\"https://github.com/lirantal/daloradius\">Liran Tal</a> <br/>
-Template design by <a href=\"http://www.sixshootermedia.com\">Six Shooter Media</a>.";
+$l['all']['copyright2'] = "daloRADIUS Modificado por <a href=\"https://github.com/wispconf/daloradiusred\">wispconf</a>";
 $l['all']['ID'] = "ID";
 $l['all']['PoolName'] = "Pool Name";
 $l['all']['CalledStationId'] = "CalledStationId";
@@ -729,7 +728,7 @@ $l['button']['NewUser'] = "New User";
 $l['button']['NewUserQuick'] = "New User - Quick Add";
 $l['button']['BatchAddUsers'] = "Batch Add Users";
 $l['button']['EditUser'] = "Edit User";
-$l['button']['SearchUsers'] = "Search Users";
+$l['button']['SearchUsers'] = "Buscar Usuario";
 $l['button']['RemoveUsers'] = "Remove Users";
 $l['button']['ListHotspots'] = "List Hotspots";
 $l['button']['NewHotspot'] = "New Hotspot";
