@@ -24,7 +24,7 @@
  
 $l['all']['daloRADIUS'] = "daloRADIUS " . $configValues['DALORADIUS_VERSION'];
 $l['all']['daloRADIUSVersion'] = "version " . $configValues['DALORADIUS_VERSION'];
-$l['all']['copyright1'] = "RADIUS Management by Liran Tal    ====== 🖨️  <a href=\"/print\">Imprimir Lotes";
+$l['all']['copyright1'] = "RADIUS Management by Liran Tal   ====== 🖨️ <a href=\"/print\">Imprimir Lotes</a>";
 $l['all']['copyright2'] = "daloRADIUS Modificado por <a href=\"https://github.com/wispconf/daloradiusred\">wispconf</a>";
 $l['all']['ID'] = "ID";
 $l['all']['PoolName'] = "Pool Name";
