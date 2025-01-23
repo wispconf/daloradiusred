@@ -33,15 +33,15 @@ define('LOGIN_PASS', "Passw@rd");
 
 // LANGUAGES
 // ------------------------------------------------------------------------------------------------
-define('LOGOUT_COMPLETE', "You've been successfully logged out.");
-define('INCORRECT_USERNAME_PASSWORD', "Invalid login credentials!");
-define('STARTER_GREETING', "This page is restricted, please log in.");
+define('LOGOUT_COMPLETE', "Haz salido correctamente.");
+define('INCORRECT_USERNAME_PASSWORD', "Credenciales invalidas!");
+define('STARTER_GREETING', "Pagina protegida por password.");
 define('USERNAME', "Username");
 define('PASSWORD', "Password");
-define('ENTER_USERNAME', "Enter Username");
-define('ENTER_PASSWORD', "Enter Password");
-define('REMEMBER_THIS_COMPUTER', "Remember this computer");
-define('BUTTON_LOGIN', "Log in &rarr;");
+define('ENTER_USERNAME', "Usuario");
+define('ENTER_PASSWORD', "Password");
+define('REMEMBER_THIS_COMPUTER', "Recordarme en esta Pc");
+define('BUTTON_LOGIN', "Acceder &rarr;");
 
 // ================================================================================================
 // ### DO NOT TOUCH ANYTHING BELOW THIS LINE ###
