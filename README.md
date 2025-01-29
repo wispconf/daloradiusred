@@ -301,10 +301,10 @@ Agregamos las siguientes lineas
 0 20 * * * sudo bash /root/scripts/limpiaCorridos.sh
 #limpieza de fichas usadas vigencia de 11 dias elegida en el script
 0 22 * * * sudo bash /root/scripts/limpiaPausados.sh
-#Elimina el error NAS reboot en accounting
+#Limpieza errores Nas en accounting
 */5  * * * * sudo bash /root/scripts/NAS-Reboot.sh
 #Limpieza de la db conexiones y accounting
-0 23 * * * sudo bash /root/scripts/rmtmpdb.sh
+*/10  * * * * sudo bash /root/scripts/rmtmpdb.sh
 ```
 
 Guardamos el archivo, y ahora movemos la carpeta de los scripts a /root
