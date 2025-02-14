@@ -6,6 +6,6 @@
 SQLPASS="Passw@rd"
 export MYSQL_PWD=$SQLPASS
 
-mysql -uroot -e "use radius; DELETE FROM radacct WHERE acctterminatecause ='NAS-Reboot';" 
-
+mysql -uroot -e "use radius; DELETE FROM radacct WHERE acctterminatecause ='NAS-Reboot';"
+mysql -uroot -e "use radius; DELETE FROM radacct WHERE acctterminatecause ='Admin-Reboot';"
 echo "Limpiado los NAS-Reboot"
