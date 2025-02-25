@@ -709,7 +709,7 @@
 
 		<li class='fieldset'>
 		<label for='numberInstances' class='form'><?php echo t('all','NumberInstances') ?></label>
-		<input class="integer" name='number' type='text' id='number' value='52' tabindex='106' />
+		<input class="integer" name='number' type='text' id='number' value='156' tabindex='106' />
 		<img src="images/icons/bullet_arrow_up.png" alt="+" onclick="javascript:changeInteger('number','increment')" />
 		<img src="images/icons/bullet_arrow_down.png" alt="-" onclick="javascript:changeInteger('number','decrement')"/>
 		<img src='images/icons/comment.png' alt='Tip' border='0' onClick="javascript:toggleShowDiv('instancesToCreateTooltip')" />
