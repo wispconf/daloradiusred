@@ -160,7 +160,7 @@
 
 			// append the prefix to the username
 			$username  = $username_prefix . $username;
-			$password = createPassword($length_pass, $configValues['CONFIG_USER_ALLOWEDRANDOMCHARS']);
+			$password = createPassword($length_pass, $configValues['CONFIG_PASSW_ALLOWEDRANDOMCHARS']);
 
 			$sql = "SELECT * FROM ".$configValues['CONFIG_DB_TBL_RADCHECK']." WHERE UserName='".
 				$dbSocket->escapeSimple($username)."'";
