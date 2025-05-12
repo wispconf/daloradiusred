@@ -7,7 +7,7 @@ export MYSQL_PWD=$SQLPASS
 > /tmp/expired.users.txt
 
 # extrae y lista las fichas de la tabla fichas con el lote xxxxxx
-mysql -uroot -e "use radius; SELECT username FROM fichas WHERE batch_name = '290823J'" |sort > /tmp/expired.users.txt
+mysql -uroot -e "use radius; SELECT username FROM printme WHERE batch_name = '290823J'" |sort > /tmp/expired.users.txt
 # Ahora elimina las fichas de ese lote de la base de datos
 num=0
 cat /tmp/expired.users.txt | while read users
