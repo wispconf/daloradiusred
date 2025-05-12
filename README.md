@@ -259,7 +259,7 @@ Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` 
 
 ### Error acctupdatetime en daloradius
 si encontramos el siguiente error
-`sql: ERROR: rlm_sql_mysql: ERROR 1054 (Unknown column 'acctupdatetime' in 'INSERT INTO')` posiblemente la tabla se haya corrompido, por lo que la recrearemos.
+`sql: ERROR: rlm_sql_mysql: ERROR 1054 (Unknown column 'acctupdatetime' in 'INSERT INTO')` en `http://ip/daloradius/rep-logs-radius.php` posiblemente la tabla se haya corrompido, por lo que la recrearemos.
 
 - Ingresamos a la base de datos
 ```
