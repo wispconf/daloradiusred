@@ -88,7 +88,7 @@
                                 ?>
                
 <footer>
-<strong><?= LOTE; ?> =  <?= $items['batch_name']; ?></strong>
+<?= $items['batch_name']; ?>
 </footer>
     </body>
 </html>
