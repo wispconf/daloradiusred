@@ -509,3 +509,8 @@ mysqldump --user= [user name] –-password= [password] [database_name] [tablenam
 ```
 mysqldump --user=root --password=Passw@rd radius > db.sql
 ```
+- Importar tabla que marca error
+En la tabla o base de datos que marque error por version, debe abrirse con un editor y eliminar la primera linea
+```
+/*M!999999\- enable the sandbox mode */
+```
