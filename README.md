@@ -514,3 +514,8 @@ En la tabla o base de datos que marque error por version, debe abrirse con un ed
 ```
 /*M!999999\- enable the sandbox mode */
 ```
+Las tablas y base de datos se importan asi
+```
+mysql --user=root --password=Password radius < radacct.sql
+```
+
