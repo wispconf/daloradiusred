@@ -174,13 +174,10 @@ mysql --user=root --password=Passw@rd radius < contrib/db/mysql-daloradius.sql
 ```
 
 - Regresamos a root
-```
-cd
-```
-
 - Colocamos zona horaria
 
 ```
+cd
 timedatectl set-timezone America/Mexico_City
 ```
 
@@ -190,6 +187,7 @@ timedatectl set-timezone America/Mexico_City
 pear install DB
 pear install MDB2
 pear channel-update pear.php.net
+#
 ```
 -  Agregaremos una tabla (printme) tipo view a la base de datos radius, esta nos servira para extraer los datos (batch_name,planname,plancost,username,value) para la impresion de lotes.
 
@@ -405,6 +403,9 @@ Los planes en la tabla billing_plans son los costos de cada ficha y esta ligado 
 
 1. Forma 1 , importando la tabla que ya los contiene.
 ```
+# mysql --user=root --password=85River@B radius < radgroupreply.sql
+# mysql --user=root --password=85River@B radius < radgroupcheck.sql
+# mysql --user=root --password=85River@B radius < billing_plans.sql
 mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/checkreplyplans.sql
 ```
 2. Forma 2 , introduciendo los datos en las tablas por medio de la terminal.
