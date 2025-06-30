@@ -520,3 +520,32 @@ Las tablas y base de datos se importan asi
 mysql --user=root --password=Password radius < radacct.sql
 ```
 
+- elimina linea sandbox que marca error en importacion de base de datos
+```
+sed -i '/sandbox mode/d' *.sql
+```
+- Exporta perfiles completos con planes,nas y el listado de usuarios en una sola base de datos
+```
+# Exportacion
+mysqldump --user=root radius radgroupreply radgroupcheck billing_plans nas > perfiles.sql
+mysqldump --user=root radius radcheck userinfo radacct userbillinfo batch_history > users.sql
+# Importacion
+mysql --user=root radius < perfiles.sql
+mysql --user=root radius < users.sql
+```
+
+- Exporta perfiles completos con planes,nas y el listado de usuarios en una cada tabla
+
+```
+mysqldump --user=root radius radcheck > radcheck.sql
+mysqldump --user=root radius userinfo > userinfo.sql
+mysqldump --user=root radius radacct > radacct.sql
+mysqldump --user=root radius userbillinfo > userbillinfo.sql
+mysqldump --user=root radius batch_history > batch_history.sql
+
+mysql --user=root radius < userinfo.sql
+mysql --user=root radius < radacct.sql
+mysql --user=root radius < userbillinfo.sql
+mysql --user=root radius < batch_history.sql
+mysql --user=root radius < radcheck.sql
+```
