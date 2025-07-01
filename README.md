@@ -244,7 +244,7 @@ sed -i 's/Rivera/Myusuario/g' "/var/www/html/daloradius/login.php"
 _Si hay error de puertos Es necesario que se abran los puertos en el vps de administracion 1812,1813,3306,6813,80,8080,443_
 
 ### Agregar Nas a la base de datos
-Ingresamos a `http://IP/daloradius/mng-rad-nas-list.php` y agregamos un nuevo *NAS* con la IP `0.0.0.0/0` type `other` y una clave NAS Secret que sera nuestra clave para sincronizar a un mikrotik. o lo hacemos con el siguiente comando, recuerda cambiar el Secret.
+Ingresamos a `http://IP/daloradius/mng-rad-nas-list.php` y agregamos un nuevo *NAS* con la IP `0.0.0.0/0` type `other` y una clave NAS Secret que sera nuestra clave para sincronizar a un mikrotik. o lo hacemos con el siguiente comando, recuerda cambiar el Secret **Passw@rd**.
 
 ```
 mysql --user=root radius < nas.sql
