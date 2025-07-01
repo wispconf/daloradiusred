@@ -1,5 +1,5 @@
 ## Instalacion Daloradius en debian 11 y 12
-
+Recomiendo debian 11, ya que en 12 por alguna razon desconocida en la parte de accounting introduciendo el usuario no aparecen los registros.
 ### Preparacion del sistema.
 - Activar ipv6
 ```
