@@ -255,64 +255,7 @@ Pass: radius
 ```
 Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` para cambiar el password y usuarios.
 
-### Error acctupdatetime en daloradius
-si encontramos el siguiente error
-`sql: ERROR: rlm_sql_mysql: ERROR 1054 (Unknown column 'acctupdatetime' in 'INSERT INTO')` en `http://ip/daloradius/rep-logs-radius.php` posiblemente la tabla se haya corrompido, por lo que la recrearemos.
 
-- Ingresamos a la base de datos
-```
-mysql -u root -p radius
-```
-- Dropeamos la tabla.
-```
-DROP TABLE radacct;
-```
-Agregamos lo siguiente.
-
-```
-CREATE TABLE radacct (
-radacctid bigint(21) NOT NULL auto_increment,
-acctsessionid varchar(64) NOT NULL default '',
-acctuniqueid varchar(32) NOT NULL default '',
-username varchar(64) NOT NULL default '',
-groupname varchar(64) NOT NULL default '',
-realm varchar(64) default '',
-nasipaddress varchar(15) NOT NULL default '',
-nasportid varchar(15) default NULL,
-nasporttype varchar(32) default NULL,
-acctstarttime datetime NULL default NULL,
-acctupdatetime datetime NULL default NULL,
-acctstoptime datetime NULL default NULL,
-acctinterval int(12) default NULL,
-acctsessiontime int(12) unsigned default NULL,
-acctauthentic varchar(32) default NULL,
-connectinfo_start varchar(50) default NULL,
-connectinfo_stop varchar(50) default NULL,
-acctinputoctets bigint(20) default NULL,
-acctoutputoctets bigint(20) default NULL,
-calledstationid varchar(50) NOT NULL default '',
-callingstationid varchar(50) NOT NULL default '',
-acctterminatecause varchar(32) NOT NULL default '',
-servicetype varchar(32) default NULL,
-framedprotocol varchar(32) default NULL,
-framedipv6address varchar(32) default NULL,
-framedipv6prefix varchar(32) default NULL,
-framedinterfaceid varchar(32) default NULL,
-delegatedipv6prefix varchar(32) default NULL,
-framedipaddress varchar(15) NOT NULL default '',
-PRIMARY KEY (radacctid),
-UNIQUE KEY acctuniqueid (acctuniqueid),
-KEY username (username),
-KEY framedipaddress (framedipaddress),
-KEY acctsessionid (acctsessionid),
-KEY acctsessiontime (acctsessiontime),
-KEY acctstarttime (acctstarttime),
-KEY acctinterval (acctinterval),
-KEY acctstoptime (acctstoptime),
-KEY nasipaddress (nasipaddress)
-) ENGINE = INNODB;
-```
-Reiniciamos el sistema y hacemos una prueba.
 
 ### Acceso a la pagina de impresion de voucher por lotes
 Cuando se crea un lote de vouchers, con el nombre se puede imprimir todo el lote, este se encuentra listado en 
@@ -396,73 +339,50 @@ sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/updategroupname.sh"
 ```
 
 ## Creacion de perfiles, planes
-Los perfiles son los grupos que contienen las configuraciones de las tablas radgroupreply y radgroupcheck utilizados para asignar a cada ficha o voucher.
-Los planes en la tabla billing_plans son los costos de cada ficha y esta ligado al perfil.
+Los perfiles son los grupos que contienen las configuraciones de las tablas, la base de datos perfiles.sql esta compuesta por las siguientes tablas.
+	***nas*** ; contien la ip nas 0.0.0.0/0 y el secret P@ssword que usara el mikrotik, cambiarlo.
+	***radgroupreply*** ; contiene datos de los perfiles de tiempo
+	***radgroupcheck*** ; contiene datos de los perfiles de tiempo
+	***billing_plans*** ; contiene los planes de costos 
 
-- Se crearan los siguientes perfiles : 2HrPausada , 12HrPausada , 7dCorridos , 30dCorridos
 
-1. Forma 1 , importando la tabla que ya los contiene.
-```
-# mysql --user=root --password=85River@B radius < radgroupreply.sql
-# mysql --user=root --password=85River@B radius < radgroupcheck.sql
-# mysql --user=root --password=85River@B radius < billing_plans.sql
-mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/checkreplyplans.sql
-```
-2. Forma 2 , introduciendo los datos en las tablas por medio de la terminal.
 
-- Entramos en la base de datos radius
+- Se crearan los siguientes perfiles y planes de costos : 2HrPausada , 12HrPausada , 7dCorridos , 30dCorridos, XCorridos ,importando la tabla perfiles.sql que ya los contiene.
 ```
-mysql --user=root --password=Passw@rd radius
+mysql --user=root radius < /root/daloradiusred/root/dalomv/perfiles.sql
+#mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/perfiles.sql
 ```
-
-- Agregamos a la tabla radgroupcheck los datos
-```
-INSERT INTO `radgroupcheck` VALUES
-(3,'2HrPausada','Max-All-Session',':=','7200'),
-(4,'2HrPausada','Fall-Through',':=','Yes'),
-(5,'2HrPausada','Simultaneous-Use',':=','1'),
-(6,'12HrPausada','Max-All-Session',':=','43200'),
-(7,'12HrPausada','Fall-Through',':=','Yes'),
-(8,'12HrPausada','Simultaneous-Use',':=','1'),
-(9,'7dCorridos','Access-Period',':=','604800'),
-(10,'7dCorridos','Fall-Through',':=','Yes'),
-(11,'7dCorridos','Simultaneous-Use',':=','1'),
-(12,'30dCorridos','Access-Period',':=','2592000'),
-(13,'30dCorridos','Fall-Through',':=','Yes'),
-(14,'30dCorridos','Simultaneous-Use',':=','1');
-```
+El perfil agregado llamado XCorridos, no tiene tiempo limite, se le agrega el atributo ; Access-Period := 604800 al usuario creado en segundos..
 
 ***Max-All-Session*** : 7200 #Se refiere a 7200 segundos = 2Hrs en suma total de tiempo.
-
 ***Access-Period*** : 604800 # Se refiere a 604800 segundos = 7d en tiempo corrido desde el primer inicio.
-
-- Agregamos a la tabla radgroupreply los datos
-```
-INSERT INTO `radgroupreply` VALUES
-(1,'2HrPausada','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
-(2,'2HrPausada','Acct-Interim-Interval',':=','60'),
-(3,'12HrPausada','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
-(4,'12HrPausada','Acct-Interim-Interval',':=','60'),
-(5,'7dCorridos','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
-(6,'7dCorridos','Acct-Interim-Interval',':=','60'),
-(7,'30dCorridos','Mikrotik-Rate-Limit',':=','512K/2M 1M/3M 384K/1500K 16/12 8 256K/1000K'),
-(8,'30dCorridos','Acct-Interim-Interval',':=','60');
-```
-- Agregamos los planes a la tabla billing_plans
-```
-INSERT INTO `billing_plans` VALUES
-(1,'2HrPausada','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','10','8','2','MXN','','yes','2024-12-15 20:53:36','administrator',NULL,NULL),
-(2,'12HrPausada','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','30','24','6','MXN','','yes','2024-12-15 20:55:16','administrator',NULL,NULL),
-(3,'7dCorridos','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','50','40','10','MXN','','yes','2024-12-15 20:57:07','administrator',NULL,NULL),
-(4,'30dCorridos','','Prepaid','','Time-To-Finish','','','','','','','','No','Never','Fixed','200','160','40','MXN','','yes','2024-12-15 20:57:37','administrator',NULL,NULL);
-```
-
-Como podras observar, puedes cambiar los datos a tu gusto ya sea por medio de la terminal o directamente en el servidor cuando ya se hayan importado.
 
 ## Comandos utiles para administracion
 - Acceder a una base de datos
 ```
 mysql --user=root --password=Passw@rd radius
+```
+- Elimina linea sandbox que marca error en importacion de base de datos
+```
+sed -i '/sandbox mode/d' *.sql
+```
+- Respaldo de varias tablas en una base de datos perfiles y usuarios
+```
+mysqldump --user=root radius nas radgroupreply radgroupcheck billing_plans > perfiles.sql
+mysqldump --user=root radius radcheck userinfo radacct userbillinfo batch_history radusergroup > usuarios.sql
+```
+Las tablas correspondientes para ***usuarios.sql*** son:
+	***radcheck*** ; contiene el usuario , atributo y password 
+	***userinfo***; contiene la informacion del usuario y fecha de creacion.
+	***radacct***; Contiene la informacion del apartado accounting del usuario.
+	***userbillinfo***; relaciona el usuario con su debido plan de costo
+	***batch_history***; Contiene los lotes o batch creados.
+	***radusergroup***; relaciona al usuario con el grupo o perfil.
+ 
+- Importacion de perfiles y usuarios
+```
+mysql --user=root radius < perfiles.sql
+mysql --user=root radius < usuarios.sql
 ```
 - Buscar una documentos que contengan una palabra especifica para despues modificarla o cambiarla,
 
@@ -498,54 +418,4 @@ apt install unzip
 
 ```
 unzip archivo.zip
-```
-- respaldo de una tabla de la base de datos
-
-```
-mysqldump --user= [user name] –-password= [password] [database_name] [tablename] > tabla.sql
-#mysqldump --user=root --password=Passw@rd radius printme > printme.sql
-```
-- respaldo de una base de datos
-
-```
-mysqldump --user=root --password=Passw@rd radius > db.sql
-```
-- Importar tabla que marca error
-En la tabla o base de datos que marque error por version, debe abrirse con un editor y eliminar la primera linea
-```
-/*M!999999\- enable the sandbox mode */
-```
-Las tablas y base de datos se importan asi
-```
-mysql --user=root --password=Password radius < radacct.sql
-```
-
-- elimina linea sandbox que marca error en importacion de base de datos
-```
-sed -i '/sandbox mode/d' *.sql
-```
-- Exporta perfiles completos con planes,nas y el listado de usuarios en una sola base de datos
-```
-# Exportacion
-mysqldump --user=root radius radgroupreply radgroupcheck billing_plans nas > perfiles.sql
-mysqldump --user=root radius radcheck userinfo radacct userbillinfo batch_history > users.sql
-# Importacion
-mysql --user=root radius < perfiles.sql
-mysql --user=root radius < users.sql
-```
-
-- Exporta perfiles completos con planes,nas y el listado de usuarios en una cada tabla
-
-```
-mysqldump --user=root radius radcheck > radcheck.sql
-mysqldump --user=root radius userinfo > userinfo.sql
-mysqldump --user=root radius radacct > radacct.sql
-mysqldump --user=root radius userbillinfo > userbillinfo.sql
-mysqldump --user=root radius batch_history > batch_history.sql
-
-mysql --user=root radius < userinfo.sql
-mysql --user=root radius < radacct.sql
-mysql --user=root radius < userbillinfo.sql
-mysql --user=root radius < batch_history.sql
-mysql --user=root radius < radcheck.sql
 ```
