@@ -363,28 +363,42 @@ El perfil agregado llamado XCorridos, no tiene tiempo limite, se le agrega el at
 mysql --user=root --password=Passw@rd radius
 ```
 - Elimina linea sandbox que marca error en importacion de base de datos
+Al importar una base de datos, en las versiones mas recientes marca error, por lo que antes debemos lanzar el siguiente comando que elimina la primera linea de archivo sql.
 ```
 sed -i '/sandbox mode/d' *.sql
 ```
-- Respaldo de varias tablas en una base de datos perfiles y usuarios
+- Exportar perfiles de tiempo, costo en una base de datos.
+  Exporta las tablas siguientes en una sola base de datos.
+	- radgroupreply ; contiene datos de los perfiles de tiempo
+	- radgroupcheck ; contiene datos de los perfiles de tiempo
+	- billing_plans ; contiene los planes de costos 
+	- radcheck ; contiene el usuario , atributo y password 
+	- radreply; contiene el usuario, atributo y operador
+	- radpostauth; Lista de accesos o conexiones del usuario (ignorada)
+	- userinfo; contiene la informacion del usuario y fecha de creacion.
+	- radacct; Contiene la informacion del apartado accounting del usuario.
+	- userbillinfo; relaciona el usuario con su debido plan de costo
+	- batch_history; Contiene los lotes o batch creados.
+	- radusergroup; relaciona al usuario con el grupo o perfil.
+
+> Exportacion
 ```
-mysqldump --user=root radius nas radgroupreply radgroupcheck billing_plans > perfiles.sql
-mysqldump --user=root radius radcheck userinfo radacct userbillinfo batch_history radusergroup > usuarios.sql
+mysqldump --user=root radius radgroupreply radgroupcheck billing_plans > perfiles.sql
 ```
-Las tablas correspondientes para ***usuarios.sql*** son:
-	***radcheck*** ; contiene el usuario , atributo y password 
-	***userinfo***; contiene la informacion del usuario y fecha de creacion.
-	***radacct***; Contiene la informacion del apartado accounting del usuario.
-	***userbillinfo***; relaciona el usuario con su debido plan de costo
-	***batch_history***; Contiene los lotes o batch creados.
-	***radusergroup***; relaciona al usuario con el grupo o perfil.
- 
-- Importacion de perfiles y usuarios
+```
+mysqldump --user=root radius radcheck radreply userinfo radacct userbillinfo batch_history radusergroup > usuarios.sql
+```
+> Importacion
+```
+sed -i '/sandbox mode/d' *.sql
+```
 ```
 mysql --user=root radius < perfiles.sql
+```
+```
 mysql --user=root radius < usuarios.sql
 ```
-- Buscar una documentos que contengan una palabra especifica para despues modificarla o cambiarla,
+- Buscar documentos que contengan una palabra especifica para despues modificarla o cambiarla,
 
 ```
 grep -rl "palabuscar" /root
