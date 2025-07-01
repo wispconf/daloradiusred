@@ -43,7 +43,7 @@ CREATE TABLE `nas` (
 
 LOCK TABLES `nas` WRITE;
 /*!40000 ALTER TABLE `nas` DISABLE KEYS */;
-INSERT INTO `nas` VALUES (1,'0.0.0.0/0','TODOS','other',0,'P@ssword','','','');
+INSERT INTO `nas` VALUES (1,'0.0.0.0/0','TODOS','other',0,'Passw@rd','','','');
 /*!40000 ALTER TABLE `nas` ENABLE KEYS */;
 UNLOCK TABLES;
 
