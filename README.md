@@ -83,7 +83,6 @@ Te apareceran algunas opciones de configuracion.
 #y
 #y
 # Disallow root login remotely? [Y/n] n
-# 
 ```
 - se crea la db y se le agrega un password, el usado en esta instalacion es ***Passw@rd***
 
@@ -187,12 +186,13 @@ timedatectl set-timezone America/Mexico_City
 pear install DB
 pear install MDB2
 pear channel-update pear.php.net
-#
 ```
 -  Agregaremos una tabla (printme) tipo view a la base de datos radius, esta nos servira para extraer los datos (batch_name,planname,plancost,username,value) para la impresion de lotes.
 
 ```
 mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/printme.sql
+```
+```
 mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/usadas.sql
 ```
 
@@ -344,12 +344,9 @@ sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/updategroupname.sh"
 
 ## Creacion de perfiles, planes
 Los perfiles son los grupos que contienen las configuraciones de las tablas, la base de datos perfiles.sql esta compuesta por las siguientes tablas.
-	***nas*** ; contien la ip nas 0.0.0.0/0 y el secret P@ssword que usara el mikrotik, cambiarlo.
 	***radgroupreply*** ; contiene datos de los perfiles de tiempo
 	***radgroupcheck*** ; contiene datos de los perfiles de tiempo
 	***billing_plans*** ; contiene los planes de costos 
-
-
 
 - Se crearan los siguientes perfiles y planes de costos : 2HrPausada , 12HrPausada , 7dCorridos , 30dCorridos, XCorridos ,importando la tabla perfiles.sql que ya los contiene.
 ```
