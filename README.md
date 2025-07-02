@@ -247,7 +247,7 @@ _Si hay error de puertos Es necesario que se abran los puertos en el vps de admi
 Ingresamos a `http://IP/daloradius/mng-rad-nas-list.php` y agregamos un nuevo *NAS* con la IP `0.0.0.0/0` type `other` y una clave NAS Secret que sera nuestra clave para sincronizar a un mikrotik. o lo hacemos con el siguiente comando, recuerda cambiar el Secret **Passw@rd**.
 
 ```
-mysql --user=root radius < nas.sql
+mysql --user=root radius < /root/daloradiusred/root/dalomv/nas.sql
 ```
 
 ### Acceso a daloradius
