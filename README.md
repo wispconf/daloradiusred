@@ -261,7 +261,7 @@ Para imprimirlo accedemos a la pagina de impresion por lotes.
 Iniciar sesion
 WEB: IP/print
 Usuario: Rivera
-Pass: 84Elij@
+Pass: La mia en lugar de Passw@rd
 ```
 
 Igual cambiamos el usuario Rivera por el propio (Myusuario).
