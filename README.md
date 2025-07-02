@@ -17,11 +17,7 @@ _Dejamos las siguientes lineas a yes_
 PermitRootLogin yes
 PasswordAuthentication yes
 ```
-- Elegimos una clave para nuestro usuario root y reiniciamos los servicios
-```
-passwd root
-```
-_Despues de cambiar nuestro password,reiniciamos los servicios_
+_Reiniciamos los servicios_
 ```
 service ssh restart
 systemctl restart sshd
@@ -77,7 +73,7 @@ Te apareceran algunas opciones de configuracion.
 #y
 # Disallow root login remotely? [Y/n] n
 ```
-- se crea la db y se le agrega un password, el usado en esta instalacion es ***Passw@rd***
+- se crea la db radius y se le agrega un password, el usado en esta instalacion es ***Passw@rd***
 
 ```
 mysql -u root
