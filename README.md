@@ -1,14 +1,7 @@
 ## Instalacion Daloradius en debian 11 y 12
 Recomiendo debian 11, ya que en 12 por alguna razon desconocida en la parte de accounting introduciendo el usuario no aparecen los registros.
 ### Preparacion del sistema.
-- Activar ipv6
-```
-enable_ipv6
-sysctl -p
-```
-En `cat /etc/sysctl.conf` deveria estar `net.ipv6.conf.all.disable_ipv6 = 0` en el archivo.
-
-Tambien deshabilitamos lighttpd para evitar error con apache.
+Deshabilitamos lighttpd para evitar error con apache.
 ```
 systemctl stop lighttpd.service
 systemctl disable lighttpd.service
