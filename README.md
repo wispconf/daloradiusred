@@ -80,7 +80,7 @@ Te apareceran algunas opciones de configuracion.
 - se crea la db y se le agrega un password, el usado en esta instalacion es ***Passw@rd***
 
 ```
-mysql -u root -p
+mysql -u root
 ```
 ```
 CREATE DATABASE radius;
@@ -108,7 +108,7 @@ apt -y install freeradius freeradius-mysql freeradius-utils
 systemctl enable --now freeradius.service
 ```
 ```
-mysql --user=root --password=Passw@rd radius < /etc/freeradius/3.0/mods-config/sql/main/mysql/schema.sql
+mysql --user=root radius < /etc/freeradius/3.0/mods-config/sql/main/mysql/schema.sql
 ```
 ```
 ln -s /etc/freeradius/3.0/mods-available/sql /etc/freeradius/3.0/mods-enabled/
@@ -158,11 +158,11 @@ cd /var/www/html/daloradius/
 ```
 
 ```
-mysql --user=root --password=Passw@rd radius < contrib/db/fr2-mysql-daloradius-and-freeradius.sql
+mysql --user=root radius < contrib/db/fr2-mysql-daloradius-and-freeradius.sql
 ```
 
 ```
-mysql --user=root --password=Passw@rd radius < contrib/db/mysql-daloradius.sql
+mysql --user=root radius < contrib/db/mysql-daloradius.sql
 ```
 
 - Regresamos a root
@@ -183,10 +183,10 @@ pear channel-update pear.php.net
 -  Agregaremos una tabla (printme) tipo view a la base de datos radius, esta nos servira para extraer los datos (batch_name,planname,plancost,username,value) para la impresion de lotes.
 
 ```
-mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/printme.sql
+mysql --user=root radius < /root/daloradiusred/root/dalomv/printme.sql
 ```
 ```
-mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/usadas.sql
+mysql --user=root radius < /root/daloradiusred/root/dalomv/usadas.sql
 ```
 
 - Damos permisos a algunas carpetas y archivos para generar los logs.
@@ -344,7 +344,7 @@ Los perfiles son los grupos que contienen las configuraciones de las tablas, la 
 - Se crearan los siguientes perfiles y planes de costos : 2HrPausada , 12HrPausada , 7dCorridos , 30dCorridos, XCorridos ,importando la tabla perfiles.sql que ya los contiene.
 ```
 mysql --user=root radius < /root/daloradiusred/root/dalomv/perfiles.sql
-#mysql --user=root --password=Passw@rd radius < /root/daloradiusred/root/dalomv/perfiles.sql
+#mysql --user=root radius < /root/daloradiusred/root/dalomv/perfiles.sql
 ```
 El perfil agregado llamado XCorridos, no tiene tiempo limite, se le agrega el atributo ; Access-Period := 604800 al usuario creado en segundos..
 
@@ -354,6 +354,7 @@ El perfil agregado llamado XCorridos, no tiene tiempo limite, se le agrega el at
 ## Comandos utiles para administracion
 - Acceder a una base de datos
 ```
+mysql --user=root radius
 mysql --user=root --password=Passw@rd radius
 ```
 - Elimina linea sandbox que marca error en importacion de base de datos
