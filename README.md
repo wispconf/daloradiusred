@@ -249,6 +249,22 @@ Pass: radius
 ```
 Despues de acceder, nos dirijimos a `http://IP/daloradius/config-operators.php` para cambiar el password y usuarios.
 
+## Creacion de perfiles, planes
+Los perfiles son los grupos que contienen las configuraciones de las tablas, la base de datos perfiles.sql esta compuesta por las siguientes tablas.
+	***radgroupreply*** ; contiene datos de los perfiles de tiempo
+	***radgroupcheck*** ; contiene datos de los perfiles de tiempo
+	***billing_plans*** ; contiene los planes de costos 
+
+- Se crearan los siguientes perfiles y planes de costos : 2HrPausada , 12HrPausada , 7dCorridos , 30dCorridos, XCorridos ,importando la tabla perfiles.sql que ya los contiene.
+```
+mysql --user=root radius < /root/daloradiusred/root/dalomv/perfiles.sql
+#mysql --user=root radius < /root/daloradiusred/root/dalomv/perfiles.sql
+```
+El perfil agregado llamado XCorridos, no tiene tiempo limite, se le agrega el atributo ; Access-Period := 604800 al usuario creado en segundos..
+
+***Max-All-Session*** : 7200 #Se refiere a 7200 segundos = 2Hrs en suma total de tiempo.
+***Access-Period*** : 604800 # Se refiere a 604800 segundos = 7d en tiempo corrido desde el primer inicio.
+
 
 ### Acceso a la pagina de impresion de voucher por lotes
 Cuando se crea un lote de vouchers, con el nombre se puede imprimir todo el lote, este se encuentra listado en 
@@ -330,22 +346,6 @@ sed -i "s/Passw@rd/$passwd/g" "/root/scripts/cleaner/rmxtiempocreado.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/crearlista.sh"
 sed -i "s/Passw@rd/$passwd/g" "/root/scripts/listar/updategroupname.sh"
 ```
-
-## Creacion de perfiles, planes
-Los perfiles son los grupos que contienen las configuraciones de las tablas, la base de datos perfiles.sql esta compuesta por las siguientes tablas.
-	***radgroupreply*** ; contiene datos de los perfiles de tiempo
-	***radgroupcheck*** ; contiene datos de los perfiles de tiempo
-	***billing_plans*** ; contiene los planes de costos 
-
-- Se crearan los siguientes perfiles y planes de costos : 2HrPausada , 12HrPausada , 7dCorridos , 30dCorridos, XCorridos ,importando la tabla perfiles.sql que ya los contiene.
-```
-mysql --user=root radius < /root/daloradiusred/root/dalomv/perfiles.sql
-#mysql --user=root radius < /root/daloradiusred/root/dalomv/perfiles.sql
-```
-El perfil agregado llamado XCorridos, no tiene tiempo limite, se le agrega el atributo ; Access-Period := 604800 al usuario creado en segundos..
-
-***Max-All-Session*** : 7200 #Se refiere a 7200 segundos = 2Hrs en suma total de tiempo.
-***Access-Period*** : 604800 # Se refiere a 604800 segundos = 7d en tiempo corrido desde el primer inicio.
 
 ## Comandos utiles para administracion
 - Acceder a una base de datos
